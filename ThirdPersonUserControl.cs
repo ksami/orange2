@@ -12,10 +12,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_CamForward;             // The current forward direction of the camera
         private Vector3 m_Move;
         private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
-
+        private int count;
+        private float v;
         
         private void Start()
         {
+            count = 0;
+            v = 0.0f;
             // get the transform of the main camera
             if (Camera.main != null)
             {
@@ -45,6 +48,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
+            
             // read inputs
             //float h = CrossPlatformInputManager.GetAxis("Horizontal");
             var vec = new Vector2 (Input.acceleration.x, Input.acceleration.y).normalized;  //to use android accelerometer
@@ -52,11 +56,23 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             //float v = CrossPlatformInputManager.GetAxis("Vertical");
             //float v = vec.y;
             //float h = 0.0f;
-            float v = 0.0f;
+            //float v = 0.0f;
             if (Input.GetKey (KeyCode.W)) {
                 v = 1.0f;
+                count = 0;
             } else if (Input.GetKey (KeyCode.S)) {
                 v = -1.0f;
+                count = 0;
+            } else if (Input.GetKey (KeyCode.D)) {
+
+            } else if (Input.GetKey (KeyCode.A)) {
+
+            } else {
+                count++;
+            }
+            if (count*Time.deltaTime >= 3) {
+                v = 0.0f;
+                count--;
             }
             //if (Input.GetKey (KeyCode.D)) {
             //  h = 1.0f;
